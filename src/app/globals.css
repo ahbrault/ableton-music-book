@@ -1,26 +1,128 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --text-*: initial;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5rem;
+  --text-base: 1rem;
+  --text-base--line-height: 2rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 2rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2.5rem;
+  --text-3xl: 2rem;
+  --text-3xl--line-height: 2.5rem;
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 3rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 3.5rem;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1;
+  --text-7xl: 4.5rem;
+  --text-7xl--line-height: 1;
+  --text-8xl: 6rem;
+  --text-8xl--line-height: 1;
+  --text-9xl: 8rem;
+  --text-9xl--line-height: 1;
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-lexend);
+  --font-display--font-feature-settings: "ss01";
+
+  --container-8xl: 88rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  [inert] ::-webkit-scrollbar {
+    display: none;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+pre[class*="language-"] {
+  color: var(--color-slate-50);
+}
+
+.token.tag,
+.token.class-name,
+.token.selector,
+.token.selector .class,
+.token.selector.class,
+.token.function {
+  color: var(--color-pink-400);
+}
+
+.token.attr-name,
+.token.keyword,
+.token.rule,
+.token.pseudo-class,
+.token.important {
+  color: var(--color-slate-300);
+}
+
+.token.module {
+  color: var(--color-pink-400);
+}
+
+.token.attr-value,
+.token.class,
+.token.string,
+.token.property {
+  color: var(--color-sky-300);
+}
+
+.token.punctuation,
+.token.attr-equals {
+  color: var(--color-slate-500);
+}
+
+.token.unit,
+.language-css .token.function {
+  color: var(--color-teal-200);
+}
+
+.token.comment,
+.token.operator,
+.token.combinator {
+  color: var(--color-slate-400);
+}
+
+img {
+  @apply mx-auto;
+}
+
+em {
+  @apply hidden;
+}
+
+h1 {
+  @apply text-3xl font-display font-bold;
+}
+
+h2 {
+  @apply text-2xl font-display font-medium;
+}
+
+h4 {
+  @apply text-base font-bold;
+}
+
+br {
+  @apply hidden;
+}
+
+.s7 > .s19 {
+  @apply italic;
+}
+
+p,
+.p {
+  @apply font-sans text-base font-normal;
 }
