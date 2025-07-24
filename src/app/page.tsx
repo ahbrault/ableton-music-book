@@ -17,7 +17,7 @@ export default function HomePage() {
             <article
               key={chapter.slug}
               id={chapter.slug}
-              className="chapter-section scroll-mt- mb-16 pb-16 border-b border-gray-200 last:border-b-0"
+              className="chapter-section scroll-mt-16 mb-16 pb-16 border-b border-gray-200 last:border-b-0"
             >
               {/* This is safe because we generated and cleaned the HTML ourselves. */}
               <div
