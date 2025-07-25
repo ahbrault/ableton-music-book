@@ -8,7 +8,7 @@ export default function HomePage() {
   const tableOfContents = getTableOfContents(allChapters);
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-white">
       <Sidebar tableOfContents={tableOfContents} />
 
       <main className="flex-1 relative mx-auto flex w-full max-w-8xl flex-auto justify-center sm:px-2 lg:px-8 xl:px-12">

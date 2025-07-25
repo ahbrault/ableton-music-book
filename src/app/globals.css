@@ -118,7 +118,7 @@ br {
   @apply hidden;
 }
 
-.s7>.s19 {
+.s7 > .s19 {
   @apply italic;
 }
 

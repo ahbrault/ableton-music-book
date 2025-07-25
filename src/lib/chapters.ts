@@ -20,7 +20,7 @@ export interface TableOfContentsPart {
 }
 
 // Get the full path to the chapters directory
-const chaptersDir = path.join(process.cwd(), "src/cleaned_chapters");
+const chaptersDir = path.join(process.cwd(), "src/chapters");
 
 /**
  * Reads all chapter HTML files, parses them, and returns them as an array of objects.
