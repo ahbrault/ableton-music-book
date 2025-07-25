@@ -1,7 +1,7 @@
 // lib/chapters.ts
-import fs from 'fs';
-import path from 'path';
-import * as cheerio from 'cheerio';
+import fs from "fs";
+import path from "path";
+import * as cheerio from "cheerio";
 
 // Define the structure for our chapter and TOC objects
 export interface Chapter {
@@ -22,19 +22,22 @@ export interface TableOfContentsPart {
 
 // Utility to create URL-friendly slugs
 function slugify(text: string): string {
-  if (!text) return '';
-  return text.toString().toLowerCase()
-    .replace(/[\u200c-\u200d\uFEFF]/g, '').trim()
-    .replace(/“|”|"/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]+/g, '')
-    .replace(/\-\-+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
+  if (!text) return "";
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/[\u200c-\u200d\uFEFF]/g, "")
+    .trim()
+    .replace(/“|”|"/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-")
+    .replace(/^-+/, "")
+    .replace(/-+$/, "");
 }
 
 // Correct the path to your chapters directory
-const chaptersDir = path.join(process.cwd(), 'src/chapters');
+const chaptersDir = path.join(process.cwd(), "src/chapters");
 
 /**
  * Reads all chapter HTML files, parses them, and returns them sorted correctly.
@@ -43,17 +46,17 @@ export function getAllChapters(): Chapter[] {
   const filenames = fs.readdirSync(chaptersDir);
 
   const chapters = filenames
-    .filter((filename) => filename.endsWith('.html'))
+    .filter((filename) => filename.endsWith(".html"))
     .sort() // This will sort files alphabetically, e.g., "01-...", "02-..."
     .map((filename): Chapter => {
       const filePath = path.join(chaptersDir, filename);
-      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const fileContents = fs.readFileSync(filePath, "utf8");
 
       const $ = cheerio.load(fileContents);
       // The title is now in an H2 tag from our parser script
-      const title = $('h1').text().trim();
-      const part = $('p > em').text().replace('Part: ', '').trim();
-      const slug = filename.replace(/\.html$/, '');
+      const title = $("h1").text().trim();
+      const part = $("p > em").text().replace("Part: ", "").trim();
+      const slug = filename.replace(/\.html$/, "");
 
       return {
         slug,

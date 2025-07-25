@@ -20,15 +20,18 @@ export default async function HomePage({ searchParams }: HomePageProps) {
 
   // Determine the current part to display.
   // Default to the first part if no param is provided or if the param is invalid.
-  const currentPartSlug =
-    activePartSlug || tableOfContents[0]?.slug || "";
+  const currentPartSlug = activePartSlug || tableOfContents[0]?.slug || "";
 
   // A helper function to create a URL-friendly slug
-  const slugify = (text: string) => text.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '');
+  const slugify = (text: string) =>
+    text
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w\-]+/g, "");
 
   // Filter chapters to show only those from the current part.
   const chaptersToShow = allChapters.filter(
-    (chapter) => slugify(chapter.part) === currentPartSlug
+    (chapter) => slugify(chapter.part) === currentPartSlug,
   );
 
   return (

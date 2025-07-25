@@ -11,9 +11,14 @@ type SidebarProps = {
   activePartSlug: string;
 };
 
-export default function Sidebar({ tableOfContents, activePartSlug }: SidebarProps) {
+export default function Sidebar({
+  tableOfContents,
+  activePartSlug,
+}: SidebarProps) {
   // State to track the chapter currently visible in the viewport
-  const [activeChapterSlug, setActiveChapterSlug] = useState<string | null>(null);
+  const [activeChapterSlug, setActiveChapterSlug] = useState<string | null>(
+    null,
+  );
   const observer = useRef<IntersectionObserver | null>(null);
 
   // This effect sets up an IntersectionObserver to watch which chapter is on screen.
@@ -33,7 +38,7 @@ export default function Sidebar({ tableOfContents, activePartSlug }: SidebarProp
       },
       // Options: rootMargin adjusts the "trigger area". -40% from top and bottom
       // means the chapter is highlighted when it's more centered on the screen.
-      { rootMargin: "-40% 0px -40% 0px" }
+      { rootMargin: "-40% 0px -40% 0px" },
     );
 
     // Observe all chapter sections on the page
@@ -60,10 +65,14 @@ export default function Sidebar({ tableOfContents, activePartSlug }: SidebarProp
                 <li key={part.slug}>
                   {/* Part titles are now Links to change the page's content */}
                   <Link href={`/?part=${part.slug}`}>
-                    <h3 className={clsx(
-                      "font-display font-medium dark:text-white transition-colors",
-                      part.slug === activePartSlug ? "text-slate-900" : "text-slate-500 hover:text-slate-700"
-                    )}>
+                    <h3
+                      className={clsx(
+                        "font-display font-medium dark:text-white transition-colors",
+                        part.slug === activePartSlug
+                          ? "text-slate-900"
+                          : "text-slate-500 hover:text-slate-700",
+                      )}
+                    >
                       {part.title}
                     </h3>
                   </Link>
@@ -83,7 +92,7 @@ export default function Sidebar({ tableOfContents, activePartSlug }: SidebarProp
                               "block w-full text-sm pl-3.5 before:pointer-events-none before:absolute before:top-1/2 before:-left-1 before:h-1.5 before:w-1.5 before:-translate-y-1/2 before:rounded-full",
                               chapter.slug === activeChapterSlug
                                 ? "font-semibold text-sky-500 before:bg-sky-500"
-                                : "text-slate-500 before:hidden before:bg-slate-300 pr-1 hover:text-slate-600 hover:before:block dark:text-slate-400 dark:before:bg-slate-700 dark:hover:text-slate-300"
+                                : "text-slate-500 before:hidden before:bg-slate-300 pr-1 hover:text-slate-600 hover:before:block dark:text-slate-400 dark:before:bg-slate-700 dark:hover:text-slate-300",
                             )}
                           >
                             {chapter.title}
