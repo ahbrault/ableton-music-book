@@ -3,17 +3,19 @@ import fs from "fs";
 import path from "path";
 import * as cheerio from "cheerio";
 
-// Define the structure for our chapter and TOC objects
+// Interfaces (no changes)
 export interface Chapter {
   slug: string;
   part: string;
   title: string;
   html: string;
+  // NEW: Add fileName for sorting
+  fileName: string;
 }
 
 export interface TableOfContentsPart {
   title: string;
-  slug: string; // We'll add a slug for linking
+  slug: string;
   chapters: {
     title: string;
     slug: string;
@@ -36,43 +38,38 @@ function slugify(text: string): string {
     .replace(/-+$/, "");
 }
 
-// Correct the path to your chapters directory
 const chaptersDir = path.join(process.cwd(), "src/chapters");
 
-/**
- * Reads all chapter HTML files, parses them, and returns them sorted correctly.
- */
+// Memoize chapters to avoid reading files multiple times during a build
+let chaptersCache: Chapter[];
+
 export function getAllChapters(): Chapter[] {
+  if (chaptersCache) {
+    return chaptersCache;
+  }
+
   const filenames = fs.readdirSync(chaptersDir);
 
-  const chapters = filenames
+  chaptersCache = filenames
     .filter((filename) => filename.endsWith(".html"))
-    .sort() // This will sort files alphabetically, e.g., "01-...", "02-..."
+    .sort() // Sort by filename (e.g., "01-...", "02-...")
     .map((filename): Chapter => {
       const filePath = path.join(chaptersDir, filename);
       const fileContents = fs.readFileSync(filePath, "utf8");
 
       const $ = cheerio.load(fileContents);
-      // The title is now in an H2 tag from our parser script
       const title = $("h1").text().trim();
       const part = $("p > em").text().replace("Part: ", "").trim();
       const slug = filename.replace(/\.html$/, "");
 
-      return {
-        slug,
-        part,
-        title,
-        html: fileContents,
-      };
+      return { slug, part, title, html: fileContents, fileName: filename };
     });
 
-  return chapters;
+  return chaptersCache;
 }
 
-/**
- * Groups the chapters by their "part" to build a structured table of contents.
- */
-export function getTableOfContents(chapters: Chapter[]): TableOfContentsPart[] {
+export function getTableOfContents(): TableOfContentsPart[] {
+  const chapters = getAllChapters();
   const tocMap = new Map<string, { title: string; slug: string }[]>();
 
   chapters.forEach((chapter) => {
@@ -90,4 +87,44 @@ export function getTableOfContents(chapters: Chapter[]): TableOfContentsPart[] {
     slug: slugify(title),
     chapters,
   }));
+}
+
+// --- NEW FUNCTIONS FOR DYNAMIC ROUTING ---
+
+/**
+ * Generates all possible URL paths for static generation.
+ */
+export function getChapterPaths() {
+  return getAllChapters().map((chapter) => ({
+    part: slugify(chapter.part),
+    slug: chapter.slug,
+  }));
+}
+
+/**
+ * Gets the data for a single chapter, plus its next/previous siblings.
+ */
+export function getChapterData(part: string, slug: string) {
+  const allChapters = getAllChapters();
+  const chapterIndex = allChapters.findIndex(
+    (c) => slugify(c.part) === part && c.slug === slug,
+  );
+
+  if (chapterIndex === -1) {
+    return null;
+  }
+
+  const chapter = allChapters[chapterIndex];
+  const prevChapter = allChapters[chapterIndex - 1] || null;
+  const nextChapter = allChapters[chapterIndex + 1] || null;
+
+  return {
+    chapter,
+    prev: prevChapter
+      ? { part: slugify(prevChapter.part), slug: prevChapter.slug }
+      : null,
+    next: nextChapter
+      ? { part: slugify(nextChapter.part), slug: nextChapter.slug }
+      : null,
+  };
 }

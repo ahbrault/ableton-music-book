@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import clsx from "clsx";
+import Sidebar from "@/components/Sidebar";
+import { getTableOfContents } from "@/lib/chapters";
 import "./globals.css";
 
 const inter = Inter({
@@ -28,6 +30,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const tableOfContents = getTableOfContents();
+
   return (
     <html
       lang="en"
@@ -35,7 +39,8 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full bg-white dark:bg-slate-900">
-        <div className="flex w-full flex-col">{children}</div>
+        <Sidebar tableOfContents={tableOfContents} />
+        {children}
       </body>
     </html>
   );
