@@ -3,14 +3,12 @@ import fs from "fs";
 import path from "path";
 import * as cheerio from "cheerio";
 
-// Interfaces (no changes)
+// Define the structure for our chapter and TOC objects
 export interface Chapter {
   slug: string;
   part: string;
   title: string;
   html: string;
-  // NEW: Add fileName for sorting
-  fileName: string;
 }
 
 export interface TableOfContentsPart {
@@ -38,9 +36,10 @@ function slugify(text: string): string {
     .replace(/-+$/, "");
 }
 
+// FIX: Corrected path to the chapters directory
 const chaptersDir = path.join(process.cwd(), "src/chapters");
 
-// Memoize chapters to avoid reading files multiple times during a build
+// Memoize chapters to avoid reading files multiple times
 let chaptersCache: Chapter[];
 
 export function getAllChapters(): Chapter[] {
@@ -52,17 +51,18 @@ export function getAllChapters(): Chapter[] {
 
   chaptersCache = filenames
     .filter((filename) => filename.endsWith(".html"))
-    .sort() // Sort by filename (e.g., "01-...", "02-...")
+    .sort() // Sort by filename prefix (01-, 02-, etc.)
     .map((filename): Chapter => {
       const filePath = path.join(chaptersDir, filename);
       const fileContents = fs.readFileSync(filePath, "utf8");
 
       const $ = cheerio.load(fileContents);
+      // FIX: The parser script generates H2 for titles, not H1
       const title = $("h1").text().trim();
       const part = $("p > em").text().replace("Part: ", "").trim();
       const slug = filename.replace(/\.html$/, "");
 
-      return { slug, part, title, html: fileContents, fileName: filename };
+      return { slug, part, title, html: fileContents };
     });
 
   return chaptersCache;
@@ -89,30 +89,21 @@ export function getTableOfContents(): TableOfContentsPart[] {
   }));
 }
 
-// --- NEW FUNCTIONS FOR DYNAMIC ROUTING ---
-
-/**
- * Generates all possible URL paths for static generation.
- */
 export function getChapterPaths() {
   return getAllChapters().map((chapter) => ({
+    // FIX: Match the dynamic segment names [part] and [slug]
     part: slugify(chapter.part),
     slug: chapter.slug,
   }));
 }
 
-/**
- * Gets the data for a single chapter, plus its next/previous siblings.
- */
-export function getChapterData(part: string, slug: string) {
+export function getChapterData(partSlug: string, chapterSlug: string) {
   const allChapters = getAllChapters();
   const chapterIndex = allChapters.findIndex(
-    (c) => slugify(c.part) === part && c.slug === slug,
+    (c) => slugify(c.part) === partSlug && c.slug === chapterSlug,
   );
 
-  if (chapterIndex === -1) {
-    return null;
-  }
+  if (chapterIndex === -1) return null;
 
   const chapter = allChapters[chapterIndex];
   const prevChapter = allChapters[chapterIndex - 1] || null;
@@ -126,5 +117,36 @@ export function getChapterData(part: string, slug: string) {
     next: nextChapter
       ? { part: slugify(nextChapter.part), slug: nextChapter.slug }
       : null,
+  };
+}
+
+// --- NEW FUNCTIONS FOR THE PART PAGE ---
+
+/**
+ * Generates all possible URL paths for the part pages.
+ */
+export function getPartPaths() {
+  const parts = new Set(getAllChapters().map((c) => slugify(c.part)));
+  return Array.from(parts).map((part) => ({
+    part: part,
+  }));
+}
+
+/**
+ * Gets the data for a specific part, including all its chapters.
+ */
+export function getPartData(partSlug: string) {
+  const allChapters = getAllChapters();
+  const chaptersInPart = allChapters.filter(
+    (c) => slugify(c.part) === partSlug,
+  );
+
+  if (chaptersInPart.length === 0) {
+    return null;
+  }
+
+  return {
+    partTitle: chaptersInPart[0].part,
+    chapters: chaptersInPart,
   };
 }

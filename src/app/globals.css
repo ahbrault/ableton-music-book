@@ -103,11 +103,11 @@ em {
 }
 
 h1 {
-  @apply text-3xl font-display font-bold;
+  @apply text-3xl font-display font-medium;
 }
 
 h2 {
-  @apply text-2xl font-display font-medium;
+  @apply text-2xl font-display font-normal;
 }
 
 h4 {
