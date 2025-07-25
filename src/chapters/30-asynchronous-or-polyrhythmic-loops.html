@@ -1,168 +1,180 @@
-<html><head></head><body><p><em>Part: ‌Problems of Progressing</em></p>
-<h1>Asynchronous or Polyrhythmic Loops</h1>
+<html>
+  <head></head>
 
-<h2>Problem:</h2>
+  <body>
+    <em hidden="true">Part: ‌Problems of Progressing</em>
+    <h1>Asynchronous or Polyrhythmic Loops</h1>
 
-<p class="s16">
-  Many electronic genres make extensive use of loops. When you listen to your
-  favorite examples of loop-based music, there’s always some sense of motion
-  that keeps the music fresh and interesting, but your own attempts to work this
-  way usually strike you as static and boring.
-</p>
-<p>
-  It seems like a paradox, but “simple”-sounding loop-based genres like minimal
-  techno can be difficult to emulate. All of the elements are on the surface,
-  and it’s easy to hear through the few layers of production. But although the
-  surface level of much of this music suggests that there isn’t much happening,
-  there’s a subtlety and richness of detail at work that separates the good
-  music from the bad.
-</p>
-<p>
-  Our typical mental model of a sequenced MIDI loop in a DAW is something like
-  this: An instrument is played by one looping clip with a fixed length
-  (probably equal to one or more complete bars). At some point, we might stop
-  this clip and then start another clip in its place. So at any moment, any
-  given instrument is either silent or is being triggered by one clip.
-</p>
-<p>
-  Here’s a different way of thinking about looped clips that might make things
-  more interesting.
-</p>
+    <h2>Problem:</h2>
 
-<h2>Solution:</h2>
-
-<p>
-  Instead of triggering an instrument with a single clip, try simultaneously
-  triggering it with multiple clips of different lengths. In most DAWs, this
-  will require some kind of inter-track routing. For example, one track could
-  contain the instrument, while one or more additional tracks contain no
-  instruments but instead only the clips that will play the instrument on the
-  first track. These “silent” clips will then have their output routed to the
-  first track.
-</p>
-<p>
-  In this example, imagine an instrument is triggered by a simple looping MIDI
-  pattern consisting of four sixteenth notes:
-</p>
-
-<p><span> </span></p>
-<table border="0" cellspacing="0" cellpadding="0">
-  <tbody>
-    <tr>
-      <td>
-        <img src="/images/chapters/30-asynchronous-or-polyrhythmic-loops/image-1.webp">
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<p>
-  Simultaneously, the same instrument is being triggered by another loop that
-  contains one sixteenth note followed by four sixteenths of silence. This
-  pattern loops every five sixteenths; it is one sixteenth longer than the first
-  pattern, so they will play out of sync with each other but in time with a
-  shared pulse, a phenomenon known as <i>polyrhythm</i>.
-</p>
-
-<p><span> </span></p>
-<table border="0" cellspacing="0" cellpadding="0">
-  <tbody>
-    <tr>
-      <td>
-        <img src="/images/chapters/30-asynchronous-or-polyrhythmic-loops/image-2.webp">
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<p>
-  The simultaneous juxtaposition of these two patterns creates an interesting
-  auditory phenomenon. The ear can now hear three simultaneous patterns: the two
-  that are actually being played and the resulting composite, which finally
-  comes back into sync every 20 sixteenth notes:
-</p>
-
-<p><span> </span></p>
-<table border="0" cellspacing="0" cellpadding="0">
-  <tbody>
-    <tr>
-      <td>
-        <img src="/images/chapters/30-asynchronous-or-polyrhythmic-loops/image-3.webp">
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Here are some variations on these concepts:</p>
-<ul id="l23">
-  <li data-list-text=">">
-    <p>
-      Try adding more loops of differing lengths. For example, adding a third
-      loop to the earlier example that repeats every three sixteenth notes will
-      create a composite that is three times as long; the original patterns will
-      realign after 60 sixteenth notes.
+    <p class="s16">
+      Many electronic genres make extensive use of loops. When you listen to
+      your favorite examples of loop-based music, there’s always some sense of
+      motion that keeps the music fresh and interesting, but your own attempts
+      to work this way usually strike you as static and boring.
     </p>
-  </li>
-  <li data-list-text=">">
     <p>
-      Rather than letting the composite naturally realign, you could
-      “artificially” realign it anywhere in an arrangement by simply pasting the
-      clips so they begin at that point.
+      It seems like a paradox, but “simple”-sounding loop-based genres like
+      minimal techno can be difficult to emulate. All of the elements are on the
+      surface, and it’s easy to hear through the few layers of production. But
+      although the surface level of much of this music suggests that there isn’t
+      much happening, there’s a subtlety and richness of detail at work that
+      separates the good music from the bad.
     </p>
-  </li>
-  <li data-list-text=">">
     <p>
-      Some DAWs allow automation to loop at a length that is “unlinked” from the
-      length of the notes in the clip. For example, you could create an envelope
-      that varies a synthesizer’s filter cutoff and have this envelope loop at
-      yet another length from the loops containing notes. Even if your DAW
-      doesn’t have this functionality within clips, you could manually create
-      repeating automation patterns of any length when you build your
-      arrangement.
+      Our typical mental model of a sequenced MIDI loop in a DAW is something
+      like this: An instrument is played by one looping clip with a fixed length
+      (probably equal to one or more complete bars). At some point, we might
+      stop this clip and then start another clip in its place. So at any moment,
+      any given instrument is either silent or is being triggered by one clip.
     </p>
-  </li>
-  <li data-list-text=">">
     <p>
-      Similarly, if you have some kind of modulation source that can control
-      parameters (like an LFO, for example), you could set this to a rate which
-      is again asynchronous in relation to the looping notes.
+      Here’s a different way of thinking about looped clips that might make
+      things more interesting.
     </p>
-  </li>
-  <li data-list-text=">">
-    <p>
-      If you’re using a plug-in instrument, try using duplicates of the
-      instrument with slightly altered timbres, rather than actually using the
-      exact same instrument. This will weaken the sense of a single composite
-      pattern but may be more interesting anyway. You could even use this
-      technique with hardware synths, provided you have enough of them (or
-      you’re willing to bounce to audio after recording each pattern
-      separately).
-    </p>
-  </li>
-  <li data-list-text=">">
-    <p>
-      When set against other instruments that are playing in more standard loop
-      lengths, even a single “odd” loop can create the same kind of interesting
-      effects. This approach is common in a lot of early acid tracks; listen to
-      almost anything by Hardfloor for examples.
-    </p>
-  </li>
-</ul>
 
-<p>
-  Layering of simultaneous asynchronous loops is a common hallmark of the
-  so-called “Berlin School” of electronic music from the 70s and 80s, which was
-  largely defined by multiple modular sequencers, each playing a monophonic loop
-  consisting of a different number of notes.
-</p>
-<p>
-  A similar technique can be found in ambient pieces such as Brian Eno’s
-  <i>Music for Airports</i>, which is made from multiple tape loops of different
-  lengths. This “analog” approach to the concept is truly asynchronous— if
-  played forever, uneven tape loops are unlikely to ever resynchronize. You
-  could achieve a similar effect in your DAW by offsetting one of your loop
-  lengths so that it’s not quite aligned to the metric grid. Try playing with
-  the amount of offset until you find relationships which sound interesting.
-  This can create some very unusual rhythmic effects.
-</p>
-</body></html>
+    <h2>Solution:</h2>
+
+    <p>
+      Instead of triggering an instrument with a single clip, try simultaneously
+      triggering it with multiple clips of different lengths. In most DAWs, this
+      will require some kind of inter-track routing. For example, one track
+      could contain the instrument, while one or more additional tracks contain
+      no instruments but instead only the clips that will play the instrument on
+      the first track. These “silent” clips will then have their output routed
+      to the first track.
+    </p>
+    <p>
+      In this example, imagine an instrument is triggered by a simple looping
+      MIDI pattern consisting of four sixteenth notes:
+    </p>
+
+    <p><span> </span></p>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td>
+            <img
+              src="/images/chapters/30-asynchronous-or-polyrhythmic-loops/image-1.webp"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Simultaneously, the same instrument is being triggered by another loop
+      that contains one sixteenth note followed by four sixteenths of silence.
+      This pattern loops every five sixteenths; it is one sixteenth longer than
+      the first pattern, so they will play out of sync with each other but in
+      time with a shared pulse, a phenomenon known as <i>polyrhythm</i>.
+    </p>
+
+    <p><span> </span></p>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td>
+            <img
+              src="/images/chapters/30-asynchronous-or-polyrhythmic-loops/image-2.webp"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      The simultaneous juxtaposition of these two patterns creates an
+      interesting auditory phenomenon. The ear can now hear three simultaneous
+      patterns: the two that are actually being played and the resulting
+      composite, which finally comes back into sync every 20 sixteenth notes:
+    </p>
+
+    <p><span> </span></p>
+    <table border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td>
+            <img
+              src="/images/chapters/30-asynchronous-or-polyrhythmic-loops/image-3.webp"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Here are some variations on these concepts:</p>
+    <ul id="l23">
+      <li data-list-text=">">
+        <p>
+          Try adding more loops of differing lengths. For example, adding a
+          third loop to the earlier example that repeats every three sixteenth
+          notes will create a composite that is three times as long; the
+          original patterns will realign after 60 sixteenth notes.
+        </p>
+      </li>
+      <li data-list-text=">">
+        <p>
+          Rather than letting the composite naturally realign, you could
+          “artificially” realign it anywhere in an arrangement by simply pasting
+          the clips so they begin at that point.
+        </p>
+      </li>
+      <li data-list-text=">">
+        <p>
+          Some DAWs allow automation to loop at a length that is “unlinked” from
+          the length of the notes in the clip. For example, you could create an
+          envelope that varies a synthesizer’s filter cutoff and have this
+          envelope loop at yet another length from the loops containing notes.
+          Even if your DAW doesn’t have this functionality within clips, you
+          could manually create repeating automation patterns of any length when
+          you build your arrangement.
+        </p>
+      </li>
+      <li data-list-text=">">
+        <p>
+          Similarly, if you have some kind of modulation source that can control
+          parameters (like an LFO, for example), you could set this to a rate
+          which is again asynchronous in relation to the looping notes.
+        </p>
+      </li>
+      <li data-list-text=">">
+        <p>
+          If you’re using a plug-in instrument, try using duplicates of the
+          instrument with slightly altered timbres, rather than actually using
+          the exact same instrument. This will weaken the sense of a single
+          composite pattern but may be more interesting anyway. You could even
+          use this technique with hardware synths, provided you have enough of
+          them (or you’re willing to bounce to audio after recording each
+          pattern separately).
+        </p>
+      </li>
+      <li data-list-text=">">
+        <p>
+          When set against other instruments that are playing in more standard
+          loop lengths, even a single “odd” loop can create the same kind of
+          interesting effects. This approach is common in a lot of early acid
+          tracks; listen to almost anything by Hardfloor for examples.
+        </p>
+      </li>
+    </ul>
+
+    <p>
+      Layering of simultaneous asynchronous loops is a common hallmark of the
+      so-called “Berlin School” of electronic music from the 70s and 80s, which
+      was largely defined by multiple modular sequencers, each playing a
+      monophonic loop consisting of a different number of notes.
+    </p>
+    <p>
+      A similar technique can be found in ambient pieces such as Brian Eno’s
+      <i>Music for Airports</i>, which is made from multiple tape loops of
+      different lengths. This “analog” approach to the concept is truly
+      asynchronous— if played forever, uneven tape loops are unlikely to ever
+      resynchronize. You could achieve a similar effect in your DAW by
+      offsetting one of your loop lengths so that it’s not quite aligned to the
+      metric grid. Try playing with the amount of offset until you find
+      relationships which sound interesting. This can create some very unusual
+      rhythmic effects.
+    </p>
+  </body>
+</html>

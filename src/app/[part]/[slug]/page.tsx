@@ -2,12 +2,8 @@
 import { getChapterPaths, getChapterData } from "@/lib/chapters";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Metadata } from "next";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
-
-// This function generates all the static pages at build time.
-export function generateStaticParams() {
-  return getChapterPaths();
-}
 
 type ChapterPageProps = {
   params: Promise<{
@@ -15,6 +11,29 @@ type ChapterPageProps = {
     slug: string;
   }>;
 };
+
+export async function generateMetadata({
+  params,
+}: ChapterPageProps): Promise<Metadata> {
+  const { part, slug } = await params;
+  const data = getChapterData(part, slug);
+
+  if (!data) {
+    return {
+      title: "Chapter Not Found",
+    };
+  }
+
+  return {
+    title: `${data.chapter.title} | Making Music`,
+    description: `Chapter from the part "${data.chapter.part}" of the book Making Music.`,
+  };
+}
+
+// This function generates all the static pages at build time.
+export function generateStaticParams() {
+  return getChapterPaths();
+}
 
 export default async function ChapterPage({ params }: ChapterPageProps) {
   const { part, slug } = await params;
@@ -31,7 +50,6 @@ export default async function ChapterPage({ params }: ChapterPageProps) {
     <main className="flex-1">
       <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h4 className="text-xl font-bold text-sky-500">{chapter.part}</h4>
-
         <div
           className="prose prose-lg max-w-none"
           dangerouslySetInnerHTML={{ __html: chapter.html }}

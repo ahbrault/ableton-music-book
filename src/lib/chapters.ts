@@ -59,7 +59,7 @@ export function getAllChapters(): Chapter[] {
       const $ = cheerio.load(fileContents);
       // FIX: The parser script generates H2 for titles, not H1
       const title = $("h1").text().trim();
-      const part = $("p > em").text().replace("Part: ", "").trim();
+      const part = $("em").text().replace("Part: ", "").trim();
       const slug = filename.replace(/\.html$/, "");
 
       return { slug, part, title, html: fileContents };
